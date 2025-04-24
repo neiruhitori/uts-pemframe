@@ -1,7 +1,8 @@
 'use client'
 
 import { createContext, useContext, useState } from 'react'
-import axios from '@/lib/axios'
+import { useRouter } from 'next/navigation' // Import useRouter
+import axios from '../../lib/axios'
 
 const AuthContext = createContext()
 
@@ -9,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
+    const router = useRouter() // Inisialisasi router
 
     const csrf = () => axios.get('/sanctum/csrf-cookie')
 
@@ -36,13 +38,14 @@ export const AuthProvider = ({ children }) => {
         setErrors([])
 
         try {
-            const response = await axios.post('/register', {
+            await axios.post('/register', {
                 name,
                 email,
                 password,
                 password_confirmation,
             })
             setStatus('Registration successful')
+            router.push('/login') // Redirect ke login setelah berhasil register
         } catch (error) {
             setErrors(error.response?.data?.errors || ['Registration failed'])
         }
@@ -59,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ user, login, register, logout, errors, status }}>
+            value={{ user, login, register, logout, errors, status, setStatus }}>
             {children}
         </AuthContext.Provider>
     )

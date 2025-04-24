@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation' // Import usePathname
 import { Home, User, Settings, Menu, X, TicketsPlane } from 'lucide-react'
 import { useState } from 'react'
-import { useAuth } from '@/hooks/auth'
+import { useAuth } from '../../hooks/auth'
 
 const Navigation = ({ user }) => {
     const { logout } = useAuth()

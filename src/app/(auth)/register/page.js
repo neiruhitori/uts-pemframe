@@ -1,12 +1,20 @@
 'use client'
 
-import Button from '@/components/Button'
-import Input from '@/components/Input'
-import InputError from '@/components/InputError'
-import Label from '@/components/Label'
+import { Button } from '../../../components/Button'
+import { Input } from '../../../components/Input'
+import { Label } from '../../../components/Label'
 import Link from 'next/link'
 import { useAuthContext } from '../../contexts/AuthContext'
 import { useState } from 'react'
+
+const InputError = ({ messages }) => {
+    if (!messages) return null
+    return (
+        <div className="text-sm text-red-500 mt-1">
+            {Array.isArray(messages) ? messages.join(', ') : messages}
+        </div>
+    )
+}
 
 const Register = () => {
     const { register, errors, status } = useAuthContext()
@@ -28,11 +36,11 @@ const Register = () => {
     return (
         <>
             {status && <div className="mb-4 text-green-600">{status}</div>}
-            <form onSubmit={submitForm}>
+
+            <form onSubmit={submitForm} className="space-y-4">
                 <div>
                     <Label htmlFor="name">Name</Label>
                     <Input
-                        className="w-full"
                         id="name"
                         type="text"
                         value={name}
@@ -43,10 +51,9 @@ const Register = () => {
                     <InputError messages={errors.name} />
                 </div>
 
-                <div className="mt-4">
+                <div>
                     <Label htmlFor="email">Email</Label>
                     <Input
-                        className="w-full"
                         id="email"
                         type="email"
                         value={email}
@@ -56,10 +63,9 @@ const Register = () => {
                     <InputError messages={errors.email} />
                 </div>
 
-                <div className="mt-4">
+                <div>
                     <Label htmlFor="password">Password</Label>
                     <Input
-                        className="w-full"
                         id="password"
                         type="password"
                         value={password}
@@ -69,12 +75,11 @@ const Register = () => {
                     <InputError messages={errors.password} />
                 </div>
 
-                <div className="mt-4">
+                <div>
                     <Label htmlFor="passwordConfirmation">
                         Confirm Password
                     </Label>
                     <Input
-                        className="w-full"
                         id="passwordConfirmation"
                         type="password"
                         value={passwordConfirmation}
@@ -84,13 +89,13 @@ const Register = () => {
                     <InputError messages={errors.password_confirmation} />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-end">
                     <Link
                         href="/login"
                         className="underline text-sm text-gray-600 hover:text-gray-900">
                         Already registered?
                     </Link>
-                    <Button type="submit" className="ml-4">
+                    <Button type="submit" className="ml-4" variant="outline" size="sm">
                         Register
                     </Button>
                 </div>

@@ -4,10 +4,10 @@ import Link from "next/link";
 import { Menu, X, TicketsPlane } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from '@/hooks/auth';
+import { useAuthContext  } from '../../app/contexts/AuthContext';
 
 function Navbar() {
-  const { user } = useAuth({ middleware: 'guest' })
+  const { user } = useAuthContext ({ middleware: 'guest' })
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 

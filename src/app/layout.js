@@ -1,6 +1,6 @@
 import { Nunito } from 'next/font/google'
-import '@/app/global.css'
-import { AuthProvider } from '@/app/contexts/AuthContext'
+import './global.css'
+import { AuthProvider } from '../app/contexts/AuthContext'
 
 const nunitoFont = Nunito({
     subsets: ['latin'],

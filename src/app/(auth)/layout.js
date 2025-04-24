@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import AuthCard from '@/app/(auth)/AuthCard'
+import AuthCard from './AuthCard'
 // import ApplicationLogo from '@/components/ApplicationLogo'
 import { TicketsPlane } from 'lucide-react'
 

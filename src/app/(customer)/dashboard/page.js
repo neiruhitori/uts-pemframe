@@ -1,24 +1,90 @@
-import Header from '@/app/(customer)/Header'
-import RoleGuard from '@/components/RoleGuard'
+'use client'
 
-export const metadata = {
-    title: 'Laravel - Dashboard',
-}
+import { Card, CardHeader, CardContent } from '../../../components/Card'
+import Header from '../Header'
+import { Separator } from '../../../components/Separator'
+import { Button } from '../../../components/Button'
+import { CalendarDays, PlaneTakeoff, Plus } from 'lucide-react'
+import { useAuth } from '../../../hooks/auth'
 
 const Dashboard = () => {
+    const { user } = useAuth()
     return (
-        <RoleGuard allowedRoles={['customer']}>
+        <>
             <Header title="Dashboard" />
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            You are logged in!
-                        </div>
+
+            <div className="py-8 px-4 md:px-8">
+                <div className="max-w-6xl mx-auto space-y-6">
+                    <Card className="shadow-md">
+                        <CardHeader className="text-xl font-semibold">
+                            Hallo, {user?.name || 'Traveler'}!!
+                        </CardHeader>
+                        <CardContent className="text-gray-700">
+                            Siap untuk petualangan berikutnya? Periksa
+                            perjalananmu di bawah ini atau buat pemesanan
+                            baru.
+                        </CardContent>
+                    </Card>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {/* Upcoming Trip */}
+                        <Card className="shadow-md">
+                            <CardHeader className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <PlaneTakeoff className="w-5 h-5 text-primary" />
+                                    <span className="font-medium">
+                                        Upcoming Trip
+                                    </span>
+                                </div>
+                                <Button size="sm" variant="outline">
+                                    Lihat Semua
+                                </Button>
+                            </CardHeader>
+                            <CardContent className="text-gray-700 space-y-2">
+                                <p className="font-semibold">✈️ Bali Getaway</p>
+                                <p className="text-sm text-muted-foreground">
+                                    May 18 - May 22, 2025
+                                </p>
+                                <p className="text-sm">
+                                    Status:{' '}
+                                    <span className="text-green-600 font-medium">
+                                        Confirmed
+                                    </span>
+                                </p>
+                            </CardContent>
+                        </Card>
+
+                        {/* Quick Actions */}
+                        <Card className="shadow-md">
+                            <CardHeader className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <CalendarDays className="w-5 h-5 text-primary" />
+                                    <span className="font-medium">
+                                        Akses Cepat
+                                    </span>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="flex flex-col gap-3">
+                                <Button className="w-full justify-start gap-2">
+                                    <Plus className="w-4 h-4" />
+                                    Buat Pesanan Baru
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="w-full justify-start gap-2">
+                                    📄 Pesanan Saya
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="w-full justify-start gap-2">
+                                    🛠️ Hubungi Kami
+                                </Button>
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
             </div>
-        </RoleGuard>
+        </>
     )
 }
 
