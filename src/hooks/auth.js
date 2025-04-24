@@ -14,7 +14,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             .catch(error => {
                 if (error.response.status !== 409) throw error
 
-                router.push('/verify-email')
+                router.push('/dashboard')
             }),
     )
 
@@ -54,7 +54,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
                     if (user?.email_verified_at) {
                         router.push('/dashboard')
                     } else {
-                        router.push('/verify-email')
+                        router.push('/dashboard')
                     }
                 })
             })
