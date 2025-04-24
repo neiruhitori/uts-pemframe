@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext  } from '../../app/contexts/AuthContext';
 
+
 function Navbar() {
   const { user } = useAuthContext ({ middleware: 'guest' })
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,7 +52,7 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-  {user ? (
+          {user ? (
     <Link
       href="/dashboard"
       className="px-4 py-2 text-sm font-medium text-cyan-800 hover:text-cyan-600">
@@ -71,8 +72,7 @@ function Navbar() {
       </Link>
     </>
   )}
-</div>
-
+          </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-4 bg-[#4F959D] rounded-sm">
@@ -115,6 +115,7 @@ function Navbar() {
                 </div>
                 <div className="px-4 py-4">
                   <button
+                    type="button"
                     onClick={handleNavigateRegister}
                     className="w-full px-3 py-2 text-base font-medium text-white bg-cyan-700 hover:bg-cyan-600/90 rounded-md">
                     Sign Up

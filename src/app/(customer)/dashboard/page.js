@@ -20,9 +20,8 @@ const Dashboard = () => {
                             Hallo, {user?.name || 'Traveler'}!!
                         </CardHeader>
                         <CardContent className="text-gray-700">
-                            Siap untuk petualangan berikutnya? Periksa
-                            perjalananmu di bawah ini atau buat pemesanan
-                            baru.
+                            Ready for your next adventure? Check your trips
+                            below or make a new booking.
                         </CardContent>
                     </Card>
 
@@ -37,7 +36,7 @@ const Dashboard = () => {
                                     </span>
                                 </div>
                                 <Button size="sm" variant="outline">
-                                    Lihat Semua
+                                    View All
                                 </Button>
                             </CardHeader>
                             <CardContent className="text-gray-700 space-y-2">
@@ -60,24 +59,24 @@ const Dashboard = () => {
                                 <div className="flex items-center gap-2">
                                     <CalendarDays className="w-5 h-5 text-primary" />
                                     <span className="font-medium">
-                                        Akses Cepat
+                                        Quick Actions
                                     </span>
                                 </div>
                             </CardHeader>
                             <CardContent className="flex flex-col gap-3">
                                 <Button className="w-full justify-start gap-2">
                                     <Plus className="w-4 h-4" />
-                                    Buat Pesanan Baru
+                                    Book a New Trip
                                 </Button>
                                 <Button
                                     variant="outline"
                                     className="w-full justify-start gap-2">
-                                    📄 Pesanan Saya
+                                    📄 My Bookings
                                 </Button>
                                 <Button
                                     variant="outline"
                                     className="w-full justify-start gap-2">
-                                    🛠️ Hubungi Kami
+                                    🛠️ Get Support
                                 </Button>
                             </CardContent>
                         </Card>
