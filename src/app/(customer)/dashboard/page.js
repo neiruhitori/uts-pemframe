@@ -1,5 +1,4 @@
 import Header from '@/app/(customer)/Header'
-import RoleGuard from '@/components/RoleGuard'
 
 export const metadata = {
     title: 'Laravel - Dashboard',
