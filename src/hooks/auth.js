@@ -7,7 +7,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
     const params = useParams()
 
-    const { data: user, error, mutate } = useSWR('/api/user', () =>
+    const {
+        data: user,
+        error,
+        mutate,
+    } = useSWR('/api/user', () =>
         axios
             .get('/api/user')
             .then(res => res.data)
@@ -23,7 +27,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const register = async ({ setErrors, ...props }) => {
         await csrf()
         setErrors([])
-    
+
         axios
             .post('/register', props)
             .then(async () => {
@@ -36,16 +40,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
                 setErrors(error.response.data.errors)
             })
     }
-    
-    
-    
 
     const login = async ({ setErrors, setStatus, ...props }) => {
         await csrf()
-    
+
         setErrors([])
         setStatus(null)
-    
+
         axios
             .post('/login', props)
             .then(() => {
@@ -63,7 +64,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
                 setErrors(error.response.data.errors)
             })
     }
-    
 
     const logout = async () => {
         if (!error) {
@@ -93,28 +93,30 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     useEffect(() => {
         if (middleware === 'guest' && redirectIfAuthenticated && user) {
             // Cek apakah redirectIfAuthenticated adalah fungsi atau string
-            const redirectPath = typeof redirectIfAuthenticated === 'function' 
-                ? redirectIfAuthenticated(user) 
-                : redirectIfAuthenticated
-                
+            const redirectPath =
+                typeof redirectIfAuthenticated === 'function'
+                    ? redirectIfAuthenticated(user)
+                    : redirectIfAuthenticated
+
             router.push(redirectPath)
         }
-    
+
         // if (middleware === 'auth' && (user && !user.email_verified_at))
         //     router.push('/verify-email')
-        
+
         if (
             window.location.pathname === '/verify-email' &&
             user?.email_verified_at
         ) {
             // Cek apakah redirectIfAuthenticated adalah fungsi atau string
-            const redirectPath = typeof redirectIfAuthenticated === 'function' 
-                ? redirectIfAuthenticated(user) 
-                : redirectIfAuthenticated
-                
+            const redirectPath =
+                typeof redirectIfAuthenticated === 'function'
+                    ? redirectIfAuthenticated(user)
+                    : redirectIfAuthenticated
+
             router.push(redirectPath)
         }
-        
+
         if (middleware === 'auth' && error) logout()
     }, [user, error])
 

@@ -1,10 +1,23 @@
+'use client'
+import { useAuth } from '../../../contexts/AuthContext'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import Header from '@/app/(customer)/Header'
 
-export const metadata = {
-    title: 'Laravel - Dashboard',
-}
+export default function DashboardPage() {
+    const { user, loading } = useAuth()
+    const router = useRouter()
 
-const Dashboard = () => {
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/(auth)/login')
+        }
+    }, [loading, user])
+
+    if (loading || !user) {
+        return <p>Loading...</p>
+    }
+
     return (
         <>
             <Header title="Dashboard" />
@@ -20,5 +33,3 @@ const Dashboard = () => {
         </>
     )
 }
-
-export default Dashboard

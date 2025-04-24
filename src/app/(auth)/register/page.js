@@ -1,42 +1,40 @@
 'use client'
-
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '../../../contexts/AuthContext'
 import Button from '@/components/Button'
 import Input from '@/components/Input'
-import InputError from '@/components/InputError'
+// import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import Link from 'next/link'
-import { useAuth } from '@/hooks/auth'
-import { useState } from 'react'
 
-const Page = () => {
-    const { register } = useAuth({
-        // middleware: 'guest',
-        // redirectIfAuthenticated: '/dashboard',
-
-        middleware: 'guest',
-        redirectIfAuthenticated: 'dashboard',
-    })
+export default function RegisterPage() {
+    const router = useRouter()
+    const { register } = useAuth()
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState(null)
 
-    const submitForm = event => {
-        event.preventDefault()
-
-        register({
-            name,
-            email,
-            password,
-            password_confirmation: passwordConfirmation,
-            setErrors,
-        })
-    }
+    const handleSubmit = async e => {
+        e.preventDefault();
+        try {
+            await register({
+                name,
+                email,
+                password,
+                password_confirmation: passwordConfirmation,
+            });
+            router.push('/login'); // Redirect setelah register
+        } catch (error) {
+            setErrors('Registrasi gagal. Periksa input Anda.');
+        }
+    };    
 
     return (
-        <form onSubmit={submitForm}>
+        <form onSubmit={handleSubmit}>
             {/* Name */}
             <div>
                 <Label htmlFor="name">Name</Label>
@@ -51,7 +49,7 @@ const Page = () => {
                     autoFocus
                 />
 
-                <InputError messages={errors.name} className="mt-2" />
+                {/* <InputError messages={errors.name} className="mt-2" /> */}
             </div>
 
             {/* Email Address */}
@@ -67,7 +65,7 @@ const Page = () => {
                     required
                 />
 
-                <InputError messages={errors.email} className="mt-2" />
+                {/* <InputError messages={errors.email} className="mt-2" /> */}
             </div>
 
             {/* Password */}
@@ -84,7 +82,7 @@ const Page = () => {
                     autoComplete="new-password"
                 />
 
-                <InputError messages={errors.password} className="mt-2" />
+                {/* <InputError messages={errors.password} className="mt-2" /> */}
             </div>
 
             {/* Confirm Password */}
@@ -104,10 +102,10 @@ const Page = () => {
                     required
                 />
 
-                <InputError
+                {/* <InputError
                     messages={errors.password_confirmation}
                     className="mt-2"
-                />
+                /> */}
             </div>
 
             <div className="flex items-center justify-end mt-4">
@@ -122,5 +120,3 @@ const Page = () => {
         </form>
     )
 }
-
-export default Page

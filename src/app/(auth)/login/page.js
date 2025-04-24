@@ -1,54 +1,37 @@
 'use client'
-
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '../../../contexts/AuthContext'
+import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
+import Label from '@/components/Label'
 import Button from '@/components/Button'
 import Input from '@/components/Input'
-import InputError from '@/components/InputError'
-import Label from '@/components/Label'
-import Link from 'next/link'
-import { useAuth } from '@/hooks/auth'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
+// import InputError from '@/components/InputError'
 
-const Login = () => {
+export default function LoginPage() {
     const router = useRouter()
-
-    const { login } = useAuth({
-        // middleware: 'guest',
-        // redirectIfAuthenticated: '/dashboard2',
-
-        middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard',
-    })
+    const { login } = useAuth()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [errors, setErrors] = useState([])
-    const [status, setStatus] = useState(null)
+    const [errors, setErrors] = useState(null)
+    const [status, setStatus] = useState(null);
 
-    useEffect(() => {
-        if (router.reset?.length > 0 && errors.length === 0) {
-            setStatus(atob(router.reset))
-        } else {
-            setStatus(null)
+
+    const handleSubmit = async e => {
+        e.preventDefault()
+        try {
+            await login({ email, password })
+            router.push('/dashboard') // Redirect setelah login
+        } catch (error) {
+            setErrors('Login gagal. Periksa email dan password.')
         }
-    })
-
-    const submitForm = async event => {
-        event.preventDefault()
-
-        login({
-            email,
-            password,
-            setErrors,
-            setStatus,
-        })
     }
 
     return (
         <>
             <AuthSessionStatus className="mb-4" status={status} />
-            <form onSubmit={submitForm}>
+            <form onSubmit={handleSubmit}>
                 {/* Email Address */}
                 <div>
                     <Label htmlFor="email">Email</Label>
@@ -63,7 +46,7 @@ const Login = () => {
                         autoFocus
                     />
 
-                    <InputError messages={errors.email} className="mt-2" />
+                    {/* <InputError messages={errors.email} className="mt-2" /> */}
                 </div>
 
                 {/* Password */}
@@ -80,7 +63,7 @@ const Login = () => {
                         autoComplete="current-password"
                     />
 
-                    <InputError messages={errors.password} className="mt-2" />
+                    {/* <InputError messages={errors.password} className="mt-2" /> */}
                 </div>
                 <div className="flex items-center justify-end mt-4">
                     <Button className="ml-3">Login</Button>
@@ -89,5 +72,3 @@ const Login = () => {
         </>
     )
 }
-
-export default Login
